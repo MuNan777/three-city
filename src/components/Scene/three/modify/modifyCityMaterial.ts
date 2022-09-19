@@ -17,6 +17,8 @@ export default function modifyCityMaterial(item: THREE.Object3D<THREE.Event>) {
     // 添加整体颜色渐变
     addGradColor(mesh, shader)
     addSpread(shader)
+    addLightLine(shader)
+    addToTopLine(shader)
     shader.vertexShader = getVertexShader()
     shader.fragmentShader = getFragmentShader()
   }
@@ -82,10 +84,65 @@ export function addSpread(shader: THREE.Shader, center = new THREE.Vector2(0, 0)
   gsap.to(shader.uniforms.uSpreadTime, {
     value: 200,
     duration: 2,
-    ease: 'none',
+    ease: "none",
     repeat: -1
   })
 }
+
+// 设置光带
+export function addLightLine(shader: THREE.Shader) {
+  // 扩散时间
+  shader.uniforms.uLineTime = { value: -1000 }
+  // 设置条带宽度
+  shader.uniforms.uLineWidth = { value: 40 }
+
+  fParamsArr.push(`
+    uniform float uLineTime;
+    uniform float uLineWidth;
+  `)
+  fMainArr.push(`
+    // 扩散范围函数
+    // -x^2 + b , 所在位置点减去增加的时间的平方负数，加上 b 大于 0 的区域，进行颜色混合
+    float lineIndex = -(vPosition.x - uLineTime + vPosition.z) * (vPosition.x - uLineTime + vPosition.z) + uLineWidth;
+    if (lineIndex > 0.0) {
+      gl_FragColor = mix(gl_FragColor, vec4(1.0, 1.0, 0.0, 1.0), lineIndex / uLineWidth);
+    }
+  `)
+  gsap.to(shader.uniforms.uLineTime, {
+    value: 1000,
+    duration: 5,
+    ease: "none",
+    repeat: -1
+  })
+}
+
+// 设置光带
+export function addToTopLine(shader: THREE.Shader) {
+  // 扩散时间
+  shader.uniforms.uToTopTime = { value: 0 }
+  // 设置条带宽度
+  shader.uniforms.uToTopWidth = { value: 40 }
+
+  fParamsArr.push(`
+    uniform float uToTopTime;
+    uniform float uToTopWidth;
+  `)
+  fMainArr.push(`
+    // 扩散范围函数
+    // -x^2 + b , 所在位置点减去增加的时间的平方负数，加上 b 大于 0 的区域，进行颜色混合
+    float toTopIndex = -(vPosition.y - uToTopTime) * (vPosition.y - uToTopTime) + uToTopWidth;
+    if (toTopIndex > 0.0) {
+      gl_FragColor = mix(gl_FragColor, vec4(1.0, 1.0, 0.0, 1.0), toTopIndex / uToTopWidth);
+    }
+  `)
+  gsap.to(shader.uniforms.uToTopTime, {
+    value: 170,
+    duration: 5,
+    ease: "none",
+    repeat: -1
+  })
+}
+
 
 
 function getVertexShader() {
