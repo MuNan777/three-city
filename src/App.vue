@@ -1,9 +1,7 @@
 <script  lang="ts">
 import { defineComponent } from 'vue'
-import textVertex from './shaders/testVertex.glsl'
 import Scene from './components/Scene/index.vue'
 
-console.log(textVertex)
 export default defineComponent({
   components: {
     Scene
