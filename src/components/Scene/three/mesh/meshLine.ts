@@ -1,11 +1,13 @@
 import * as THREE from 'three'
+import BassMesh from './baseMesh'
 
-export default class MeshLine {
+export default class MeshLine extends BassMesh {
   material: THREE.MeshBasicMaterial
   geometry: THREE.EdgesGeometry<THREE.BufferGeometry>
   mesh: THREE.LineSegments<THREE.EdgesGeometry<THREE.BufferGeometry>, THREE.MeshBasicMaterial>
 
   constructor(geometry: THREE.BufferGeometry, color: number = 0xffffff) {
+    super()
     const edges = new THREE.EdgesGeometry(geometry)
     this.material = new THREE.MeshBasicMaterial({
       color,

@@ -3,11 +3,11 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
 import modifyCityMaterial from '../modify/modifyCityMaterial'
 import scene from '../scene'
+import MeshLine from './meshLine'
 import FlyLine from './flyLine'
 import FlyLineShader from './flyLineShader'
 import LightRadar from './lightRadar'
 import LightWall from './lightWall'
-import MeshLine from './meshLine'
 import WarnSprite from './warnSprite'
 const gltfLoader = new GLTFLoader()
 
@@ -23,17 +23,14 @@ export function createCity() {
     })
     scene.add(glb.scene)
     // scene.add(new FlyLine().mesh)
-    scene.add(new FlyLineShader({ x: -12, z: 0 }).mesh)
-
-    scene.add(new LightWall({ x: 5, z: 8 }, 3).mesh)
-
-    scene.add(new LightRadar({ x: 5, z: -8 }).mesh)
-
-    const warnSprite = new WarnSprite('fire', { x: -2.8, z: 10, y: 3.2 })
-    warnSprite.onClick((event) => {
-      console.log(event)
-    })
-    scene.add(warnSprite.mesh)
+    // scene.add(new FlyLineShader({ x: -12, z: 0 }).mesh)
+    // scene.add(new LightWall({ x: 5, z: 8 }, 3).mesh)
+    // scene.add(new LightRadar({ x: 5, z: -8 }).mesh)
+    // const warnSprite = new WarnSprite('fire', { x: -2.8, z: 10, y: 3.2 })
+    // warnSprite.onClick((event) => {
+    //   console.log(event)
+    // })
+    // scene.add(warnSprite.mesh)
   })
 }
 

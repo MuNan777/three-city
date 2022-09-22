@@ -1,9 +1,10 @@
 import * as THREE from 'three'
 import gsap from 'gsap'
+import BassMesh from './baseMesh'
 
 const textureLoader = new THREE.TextureLoader()
 
-export default class FlyLine {
+export default class FlyLine extends BassMesh {
   lineCurve: THREE.CatmullRomCurve3
   geometry: THREE.TubeGeometry
   material: THREE.MeshBasicMaterial
@@ -11,6 +12,7 @@ export default class FlyLine {
   texture: THREE.Texture
 
   constructor(position = { x: 0, z: 0 }) {
+    super()
     let linePoints = [
       new THREE.Vector3(0, 0, 0),
       new THREE.Vector3(position.x / 2, 5, position.z / 2),

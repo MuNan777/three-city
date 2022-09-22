@@ -16,7 +16,7 @@ export default function modifyCityMaterial(item: THREE.Object3D<THREE.Event>) {
   cityMaterial.onBeforeCompile = (shader) => {
     // 添加整体颜色渐变
     addGradColor(mesh, shader)
-    addSpread(shader)
+    // addSpread(shader)
     // addLightLine(shader)
     // addToTopLine(shader)
     shader.vertexShader = getVertexShader()

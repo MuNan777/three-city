@@ -3,16 +3,18 @@ import gsap from 'gsap'
 import vertexShader from '../../../../shaders/flyLineShader/vertex.glsl'
 import fragmentShader from '../../../../shaders/flyLineShader/fragment.glsl'
 import { BufferAttribute, IUniform } from 'three'
+import BassMesh from './baseMesh'
 
 const textureLoader = new THREE.TextureLoader()
 
-export default class FlyLineShader {
+export default class FlyLineShader extends BassMesh {
   lineCurve: THREE.CatmullRomCurve3
   geometry: THREE.BufferGeometry
   material: THREE.ShaderMaterial
   mesh: THREE.Points
 
   constructor(position = { x: 0, z: 0 }, color = 0x00ffff) {
+    super()
     let linePoints = [
       new THREE.Vector3(0, 0, 0),
       new THREE.Vector3(position.x / 2, 5, position.z / 2),

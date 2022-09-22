@@ -28,7 +28,7 @@
               <h1>
                 <div>
                   <img class="icon" :src="imgs[item.name]" />
-                  <span>{{ item.name }}</span>
+                  <span style="padding-left: 0.1rem">{{ names[item.name] }}</span>
                 </div>
                 <span class="time">{{ item.time }}</span>
               </h1>
@@ -46,11 +46,13 @@ import { warnType } from '../Scene/three/mesh/warnSprite'
 import electricity from '../../assets/bg/dianli.svg'
 import fire from "../../assets/bg/fire.svg"
 import police from "../../assets/bg/jingcha.svg"
+import eventHub from "../../utils/eventHub";
 
 export interface EventItem {
-  name: string,
-  time: number,
-  type: warnType
+  name: warnType,
+  type: string,
+  scope: number,
+  position: { x: number, y: number }
 }
 
 export interface DataInfo {
@@ -72,12 +74,21 @@ export default defineComponent({
     }
   },
   setup() {
-    const currentActive = ref(null)
+    const currentActive = ref<number | null>(null)
 
     const toFixInt = (num: number) => {
       return num.toFixed(0);
     }
 
+    eventHub.on("spriteClick", (data) => {
+      const d = data as { i: number }
+      currentActive.value = d.i
+    })
+
+    const toggleEvent = (index: number) => {
+      currentActive.value = index;
+      eventHub.emit('eventToggle', index);
+    }
 
     const imgs = {
       electricity,
@@ -85,10 +96,18 @@ export default defineComponent({
       police,
     }
 
+    const names = {
+      electricity: '电力',
+      fire: '火警',
+      police: '治安',
+    }
+
     return {
       imgs,
+      names,
       currentActive,
-      toFixInt
+      toFixInt,
+      toggleEvent
     }
   },
 })

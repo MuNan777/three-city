@@ -43,6 +43,10 @@ export default defineComponent({
     onMounted(() => {
       changeInfo()
       getEventList()
+      setInterval(() => {
+        changeInfo()
+        getEventList()
+      }, 1000 * 60)
     })
     return {
       dataInfo,
@@ -54,7 +58,7 @@ export default defineComponent({
 
 <template>
   <h2>测试</h2>
-  <Scene></Scene>
+  <Scene :eventList="eventList"></Scene>
   <BigScreen :dataInfo="dataInfo" :eventList="eventList"></BigScreen>
 </template>
 

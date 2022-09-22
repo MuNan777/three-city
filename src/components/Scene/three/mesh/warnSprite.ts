@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import camera from "../camera";
+import BassMesh from "./baseMesh";
 
 export type warnType = 'fire' | 'police' | 'electricity'
 
@@ -10,13 +11,15 @@ const textureLoader = new THREE.TextureLoader();
 // 创建射线
 const raycaster = new THREE.Raycaster()
 
-export default class WarnSprite {
+export default class WarnSprite extends BassMesh {
   material: THREE.SpriteMaterial;
   mesh: THREE.Sprite;
   clickEvents: eventFn[];
   mouse: THREE.Vector2;
+  eventFn: (event: MouseEvent) => void;
 
   constructor(type: warnType, position = { x: 0, z: 0, y: 0 }, color = 0xffffff) {
+    super()
     const typeObj = {
       fire: "./textures/tag/fire.png",
       police: "./textures/tag/jingcha.png",
@@ -41,8 +44,7 @@ export default class WarnSprite {
 
     this.mouse = new THREE.Vector2()
 
-    // 事件监听
-    window.addEventListener('click', (event) => {
+    this.eventFn = (event: MouseEvent) => {
       this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1
       this.mouse.y = -((event.clientY / window.innerHeight) * 2 - 1)
 
@@ -56,8 +58,10 @@ export default class WarnSprite {
           fn({ ...event, mesh: this.mesh, warn: this });
         });
       }
-    })
+    }
 
+    // 事件监听
+    window.addEventListener('click', this.eventFn)
   }
 
   onClick(fn: eventFn) {
@@ -69,5 +73,6 @@ export default class WarnSprite {
     this.mesh.removeFromParent();
     this.mesh.geometry.dispose();
     this.mesh.material.dispose();
+    window.removeEventListener('click', this.eventFn);
   }
 }

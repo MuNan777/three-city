@@ -2,13 +2,15 @@ import * as THREE from 'three'
 import vertexShader from '../../../../shaders/lightWall/vertex.glsl'
 import fragmentShader from '../../../../shaders/lightWall/fragment.glsl'
 import gsap from 'gsap'
+import BassMesh from './baseMesh';
 
-export default class LightWall {
+export default class LightWall extends BassMesh {
   material: THREE.ShaderMaterial;
   geometry: THREE.CylinderGeometry;
   mesh: THREE.Mesh<THREE.CylinderGeometry, THREE.ShaderMaterial>;
 
-  constructor(position = { x: 0, z: 0 }, radius = 5, color = 0xff0000, expand = 1.2) {
+  constructor(position = { x: 0, z: 0 }, radius = 5, expand = 1.2, color = 0xff0000) {
+    super()
     this.geometry = new THREE.CylinderGeometry(radius, radius, 2, 32, 1, true)
     this.geometry.computeBoundingBox()
     const { max, min } = this.geometry.boundingBox! // 外边距矩形
