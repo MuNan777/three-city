@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import camera from "../camera";
 import BassMesh from "./baseMesh";
+import gsap from 'gsap'
 
 export type warnType = 'fire' | 'police' | 'electricity'
 
@@ -37,6 +38,14 @@ export default class WarnSprite extends BassMesh {
 
     // 设置位置
     this.mesh.position.set(position.x, position.y, position.z);
+
+    // 动画
+    gsap.to(this.mesh.position, {
+      y: position.y + 0.5,
+      duration: 1,
+      repeat: -1,
+      yoyo: true,
+    })
 
     // 事件数组
     this.clickEvents = [];

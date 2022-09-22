@@ -282,10 +282,10 @@ h1 span.time {
 }
 
 .cityEvent li.active h1 {
-  color: red;
+  color: #0080ff;
 }
 .cityEvent li.active p {
-  color: red;
+  color: #0080ff;
 }
 
 ul,

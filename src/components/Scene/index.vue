@@ -107,6 +107,12 @@ export default defineComponent({
         item.mesh.visible = true
       })
       eventHub.emit("spriteClick", { i: null })
+      gsap.to(controls.target, {
+        duration: 1,
+        x: 0,
+        y: 0,
+        z: 0,
+      })
     }
 
     window.addEventListener('dblclick', eventFn)
